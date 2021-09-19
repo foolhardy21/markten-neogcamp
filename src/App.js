@@ -3,31 +3,35 @@ import React, { useState } from 'react'
 const App = () => {
   const [billAmt, setBillAmt] = useState('')
   const [givenAmt, setGivenAmt] = useState('')
-  const [notes, setNotes] = useState([
-    0,0,0,0,0,0,0
-  ]) 
+  const [notes, setNotes] = useState([0,0,0,0,0,0,0]) 
   const [message, setMessage] = useState('')
-
   const denominations = [2000,500,100,20,10,5,1]
 
+  function showNotification(text) {
+    setMessage(text)
+      setTimeout(() => {
+        setMessage('')
+      },2000)
+  }
+  function calculateNumberOfNotes(returnAmt, newNotes) {
+    return denominations.map((denom, index) => {
+      if(denom <= returnAmt) {
+        const numberOfNotes = Math.floor(returnAmt/denom)
+        returnAmt = returnAmt%denom 
+        return numberOfNotes
+      } else return newNotes[index]
+    })
+  }
   function getReturnArray(e) {
     e.preventDefault()
     let returnAmt = givenAmt - billAmt
     let newNotes = [0,0,0,0,0,0,0]
     if(returnAmt < 0) {
-      setMessage('give more money')
-      setTimeout(() => {
-        setMessage('')
-      },2000)
+      showNotification('give more money')
     } else if(returnAmt > 0) {
-      newNotes = denominations.map((denom, index) => {
-        if(denom <= returnAmt) {
-          const numberOfNotes = Math.floor(returnAmt/denom)
-          returnAmt = returnAmt%denom 
-          return numberOfNotes
-        } else return newNotes[index]
-      })
-      
+      newNotes = calculateNumberOfNotes(returnAmt, newNotes)
+    } else {
+      showNotification('no change to be given')
     }     
     setNotes([...newNotes])
   }
