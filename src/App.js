@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './App.module.css'
 
 const App = () => {
   const [billAmt, setBillAmt] = useState('')
@@ -44,23 +45,25 @@ const App = () => {
 
   return (
     <div>
-      <div>cash register manager</div>
-      <div>enter the bill amount and cash given by the customer and know minimum number of notes to return</div>
+      <h3>cash register manager</h3>
+      <p>enter the bill amount and cash given by the customer and know minimum number of notes to return</p>
       {
         message && `${message}`
       }
-      <form onSubmit={getReturnArray}>
+      <form className={styles.form_div} onSubmit={getReturnArray}>
         <label htmlFor='bill_amt'>bill amount</label>
-        <input type='number' name='bill_amt' value={billAmt} onChange={updateBillAmount} /><br />
+        <input type='number' name='bill_amt' value={billAmt} onChange={updateBillAmount} />
         <label htmlFor='given_amt'>cash given</label>
-        <input type='number' name='given_amt' value={givenAmt} onChange={updateGivenAmount}/><br />
+        <input type='number' name='given_amt' value={givenAmt} onChange={updateGivenAmount}/>
         <input type='submit' value='check'/>
       </form>
+      <div className={styles.denomination_div}>
       {
         denominations.map((value, index) => {
           return <div key={index}>{value} - {notes[index]}</div>
         })
       }
+      </div>
 
     </div>
   );
