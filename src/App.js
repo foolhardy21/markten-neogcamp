@@ -8,13 +8,13 @@ const App = () => {
   const [message, setMessage] = useState('')
   const denominations = [2000,500,100,20,10,5,1]
 
-  function showNotification(text) {
+  const showNotification = text => {
     setMessage(text)
       setTimeout(() => {
         setMessage('')
       },2000)
   }
-  function calculateNumberOfNotes(returnAmt, newNotes) {
+  const calculateNumberOfNotes = (returnAmt, newNotes) => {
     return denominations.map((denom, index) => {
       if(denom <= returnAmt) {
         const numberOfNotes = Math.floor(returnAmt/denom)
@@ -23,7 +23,7 @@ const App = () => {
       } else return newNotes[index]
     })
   }
-  function getReturnArray(e) {
+  const getReturnArray = e => {
     e.preventDefault()
     let returnAmt = givenAmt - billAmt
     let newNotes = [0,0,0,0,0,0,0]
@@ -36,10 +36,10 @@ const App = () => {
     }     
     setNotes([...newNotes])
   }
-  function updateBillAmount(e) {
+  const updateBillAmount = e => {
     setBillAmt(e.target.value)
   }
-  function updateGivenAmount(e) {
+  const updateGivenAmount = e => {
     setGivenAmt(e.target.value)
   }
 
